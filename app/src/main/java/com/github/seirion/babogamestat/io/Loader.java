@@ -1,17 +1,46 @@
 package com.github.seirion.babogamestat.io;
 
-public class Loader {
-    private Loader() {
-        /*
-        example : https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
-        URL oracle = new URL("http://www.oracle.com/");
-        BufferedReader in = new BufferedReader(
-            new InputStreamReader(oracle.openStream()));
+import com.github.seirion.babogamestat.model.BaboData;
 
-        String inputLine;
-        while ((inputLine = in.readLine()) != null)
-            System.out.println(inputLine);
-        in.close();
-        */
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+public class Loader {
+    private static Loader INSTANCE = new Loader();
+    public static Loader instance() {
+        return INSTANCE;
+    }
+    private Loader() {}
+
+    public List<BaboData> loadFromLocal() {
+        List<BaboData> list = new ArrayList<>();
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<BaboData> results = realm.where(BaboData.class).findAll();
+        results.sort("date");
+        list.addAll(results);
+        return list;
+    }
+
+    public List<BaboData> loadFromNetwork() {
+        List<BaboData> list = new ArrayList<>();
+        try {
+            URL url = new URL("https://raw.githubusercontent.com/seirion/myutil/master/statistics/seconds.txt");
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(url.openStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                //Log.e("XXX", inputLine);
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

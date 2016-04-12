@@ -16,6 +16,12 @@
             android:layout_alignParentLeft="true"
             android:text="2016.01.01"
             />
+        <Spinner
+            android:id="@+id/selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
 
     </RelativeLayout>
     <!-- graph area -->
@@ -27,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retry"
-            android:onClick="retry"
+            android:onClick="onRetry"
             />
 
     </LinearLayout>
