@@ -1,7 +1,6 @@
 package com.github.seirion.babogamestat.chart;
 
 import android.graphics.Paint;
-import android.view.View;
 
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
@@ -22,8 +21,8 @@ public class ChartSetter {
                 .setYAxis(true)
                 .setXLabels(AxisController.LabelPosition.OUTSIDE)
                 .setYLabels(AxisController.LabelPosition.OUTSIDE)
-                .setAxisBorderValues(-2, 4, 1)
-                .setGrid(ChartView.GridType.FULL, 6, 4, new Paint())
+                .setAxisBorderValues(-1, 4, 1) // FIXME
+                .setGrid(ChartView.GridType.FULL, 20, 4, new Paint()) // FIXME
                 .setValueThreshold(0, 0, new Paint())
                 .setLabelsFormat(new DecimalFormat("0.##"))
                 .setStep(1);

@@ -3,6 +3,8 @@ package com.github.seirion.babogamestat;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -25,7 +27,6 @@ import io.realm.RealmConfiguration;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import rx.subjects.BehaviorSubject;
 
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        chart = (LineChartView)findViewById(R.id.chart);
+        chart = (LineChartView) findViewById(R.id.chart);
 
         initRealm();
         initUI();
@@ -54,21 +55,9 @@ public class MainActivity extends Activity {
     }
 
     private void loadData() {
-        BehaviorSubject<List<BaboData>> networkDataArrived = BehaviorSubject.create();
-        Observable<List<BaboData>> localLoader = loadFromLocal().takeUntil(networkDataArrived);
-        Observable<List<BaboData>> networkLoader = loadFromNetwork().doOnNext(networkDataArrived::onNext);
-
-        localLoader.filter(r -> !r.isEmpty())
+        loadFromLocal().filter(r -> !r.isEmpty())
                 .subscribe(results -> ready(results),
-                e -> Log.e(TAG, "exception : " + e));
-        /*
-        networkLoader.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(results -> {
-                    ready(results);
-                    BaboData.save(results);
-                });
-                */
+                        e -> Log.e(TAG, "exception : " + e));
     }
 
     private void ready(List<BaboData> data) {
@@ -117,18 +106,40 @@ public class MainActivity extends Activity {
             subscriber.onCompleted();
         });
     }
+
     private void setDate() {
-        TextView dateView = (TextView)findViewById(R.id.date);
+        TextView dateView = (TextView) findViewById(R.id.date);
         Calendar date = Calendar.getInstance();
         dateView.setText(String.format(Locale.KOREAN, "%d.%d.%d",
-            date.get(Calendar.YEAR),
-            date.get(Calendar.MONTH),
-            date.get(Calendar.DAY_OF_MONTH)
-            ));
+                date.get(Calendar.YEAR),
+                date.get(Calendar.MONTH),
+                date.get(Calendar.DAY_OF_MONTH)
+        ));
     }
 
     public void onReload(View view) {
-
+        loadFromNetwork().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(results -> {
+                    ready(results);
+                    BaboData.save(results);
+                });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, Menu.NONE, "Reload").setIcon(android.R.drawable.ic_menu_rotate);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 0:
+                onReload(null);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
