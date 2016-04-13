@@ -2,6 +2,7 @@ package com.github.seirion.babogamestat;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -57,17 +58,17 @@ public class MainActivity extends Activity {
         Observable<List<BaboData>> localLoader = loadFromLocal().takeUntil(networkDataArrived);
         Observable<List<BaboData>> networkLoader = loadFromNetwork().doOnNext(networkDataArrived::onNext);
 
-        /*
         localLoader.filter(r -> !r.isEmpty())
                 .subscribe(results -> ready(results),
                 e -> Log.e(TAG, "exception : " + e));
-                */
+        /*
         networkLoader.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(results -> {
                     ready(results);
                     BaboData.save(results);
                 });
+                */
     }
 
     private void ready(List<BaboData> data) {

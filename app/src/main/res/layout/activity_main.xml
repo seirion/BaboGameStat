@@ -39,6 +39,7 @@
         chart:chart_axisTopSpacing="10dp"
         chart:chart_axisColor="#FF112211"
         chart:chart_labelColor="#FFBB7788"
+        chart:chart_shadowRadius="10dp"
         android:paddingTop="4dp"
         android:paddingBottom="6dp"
         />

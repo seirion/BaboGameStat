@@ -1,10 +1,13 @@
 package com.github.seirion.babogamestat.chart;
 
-import android.util.Log;
+import android.graphics.Paint;
+import android.view.View;
 
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
+
+import java.text.DecimalFormat;
 
 public class ChartSetter {
     private static ChartSetter INSTANCE = new ChartSetter();
@@ -14,14 +17,15 @@ public class ChartSetter {
     }
 
     public void init(ChartView chart) {
-        chart.setXAxis(true);
-        chart.setYAxis(true);
-        chart.setBackgroundColor(0xFFEEEEDD);
-        //chart.setGrid(ChartView.GridType.FULL, paint);
-
-        chart.setXLabels(AxisController.LabelPosition.INSIDE)
-                .setYLabels(AxisController.LabelPosition.INSIDE)
-                .setAxisBorderValues(-4, 4, 1)
+        chart.setBackgroundColor(0x99EEEEFF);
+        chart.setXAxis(true)
+                .setYAxis(true)
+                .setXLabels(AxisController.LabelPosition.OUTSIDE)
+                .setYLabels(AxisController.LabelPosition.OUTSIDE)
+                .setAxisBorderValues(-2, 4, 1)
+                .setGrid(ChartView.GridType.FULL, 6, 4, new Paint())
+                .setValueThreshold(0, 0, new Paint())
+                .setLabelsFormat(new DecimalFormat("0.##"))
                 .setStep(1);
     }
 
@@ -31,6 +35,9 @@ public class ChartSetter {
 
     public void initEvent(ChartView chart) {
         chart.setOnEntryClickListener((setIndex, entryIndex, entryRect) -> {
+        });
+
+        chart.setOnClickListener(v -> {
         });
     }
     private ChartSetter() {}
