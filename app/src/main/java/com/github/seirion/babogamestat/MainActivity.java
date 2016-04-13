@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -117,7 +116,7 @@ public class MainActivity extends Activity {
         ));
     }
 
-    public void onReload(View view) {
+    public void reload() {
         loadFromNetwork().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(results -> {
@@ -136,7 +135,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                onReload(null);
+                reload();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
