@@ -1,8 +1,10 @@
 package com.github.seirion.babogamestat.model;
 
+import android.util.Log;
+
 import io.realm.RealmObject;
 
-public class BaboData extends RealmObject {
+public class BaboData extends RealmObject implements Comparable<BaboData>{
 
     private int date;
     private long current;
@@ -32,6 +34,25 @@ public class BaboData extends RealmObject {
         this.base = base;
     }
 
+    public static BaboData loadFromString(String str) {
+        BaboData data = new BaboData();
+        String [] parsed = str.split(" ");
+        if (parsed.length != 3) return null;
+        try {
+            data.setDate(Integer.parseInt(parsed[0]));
+            data.setCurrent(Long.parseLong(parsed[1]));
+            data.setBase(Long.parseLong(parsed[2]));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        return date + " : " + current + " / " + base;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof BaboData)) {
@@ -44,5 +65,10 @@ public class BaboData extends RealmObject {
     @Override
     public int hashCode() {
         return date * 31;
+    }
+
+    @Override
+    public int compareTo(BaboData another) {
+        return this.date - another.date;
     }
 }

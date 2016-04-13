@@ -35,7 +35,10 @@ public class Loader {
                     new InputStreamReader(url.openStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                //Log.e("XXX", inputLine);
+                BaboData data = BaboData.loadFromString(inputLine);
+                if (data != null) {
+                    list.add(data);
+                }
             }
             in.close();
         } catch (Exception e) {

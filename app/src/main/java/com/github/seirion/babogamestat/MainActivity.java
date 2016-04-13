@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initRealm();
         initUI();
-        load();
+        loadData();
     }
 
     private void initRealm() {
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
         setDate();
     }
 
-    private void load() {
+    private void loadData() {
         BehaviorSubject<List<BaboData>> networkDataArrived = BehaviorSubject.create();
         Observable<List<BaboData>> localLoader = loadFromLocal().takeUntil(networkDataArrived);
         Observable<List<BaboData>> networkLoader = loadFromNetwork().doOnNext(networkDataArrived::onNext);
