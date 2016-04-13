@@ -8,5 +8,5 @@ https://realm.io/docs/java/latest/
 
 ### 그래프 사용
 
-다음 그래프 라이브러리를 사용할 예정입니다.<br>
-https://github.com/PhilJay/MPAndroidChart
+다음 그래프 라이브러리를 사용하였습니다.<br>
+https://github.com/diogobernardino/WilliamChart
