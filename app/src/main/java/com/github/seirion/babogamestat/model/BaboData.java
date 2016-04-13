@@ -1,11 +1,14 @@
 package com.github.seirion.babogamestat.model;
 
-import android.util.Log;
+import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class BaboData extends RealmObject implements Comparable<BaboData>{
 
+    @PrimaryKey
     private int date;
     private long current;
     private long base;
@@ -46,6 +49,15 @@ public class BaboData extends RealmObject implements Comparable<BaboData>{
             return null;
         }
         return data;
+    }
+
+    public static boolean save(List<BaboData> dataList) {
+        if (dataList == null || dataList.isEmpty()) return false;
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(dataList);
+        realm.commitTransaction();
+        return true;
     }
 
     @Override
