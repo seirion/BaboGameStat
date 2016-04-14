@@ -120,6 +120,7 @@ public class MainActivity extends Activity {
         loadFromNetwork().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(results -> {
+                    chart.getData().clear();
                     ready(results);
                     BaboData.save(results);
                 });
