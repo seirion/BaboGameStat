@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
+import com.github.seirion.babogamestat.DataSet;
 
 import java.text.DecimalFormat;
 
@@ -21,8 +22,6 @@ public class ChartSetter {
                 .setYAxis(true)
                 .setXLabels(AxisController.LabelPosition.OUTSIDE)
                 .setYLabels(AxisController.LabelPosition.OUTSIDE)
-                .setAxisBorderValues(-1, 4, 1) // FIXME
-                .setGrid(ChartView.GridType.FULL, 20, 4, new Paint()) // FIXME
                 .setValueThreshold(0, 0, new Paint())
                 .setLabelsFormat(new DecimalFormat("0.##"))
                 .setStep(1);
@@ -39,5 +38,20 @@ public class ChartSetter {
         chart.setOnClickListener(v -> {
         });
     }
+
     private ChartSetter() {}
+
+    public void setValueRange(LineChartView chart, DataSet dataSet) {
+        int min = dataSet.getMinInt();
+        int max = dataSet.getMaxInt();
+
+        int rows = max - min;
+        while (rows < 20) rows <<= 1;
+        while (rows > 40) rows >>= 1;
+
+        int cols = dataSet.size() -1;
+
+        chart.setAxisBorderValues(min, max, 1)
+                .setGrid(ChartView.GridType.FULL, rows, cols, new Paint());
+    }
 }

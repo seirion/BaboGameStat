@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
         ChartSetter.instance().initLineChart(chart);
         ChartSetter.instance().initEvent(chart);
         chart.addData(dataSet.getLineSet());
+        ChartSetter.instance().setValueRange(chart, dataSet);
     }
 
     private Observable<List<BaboData>> loadFromLocal() {
