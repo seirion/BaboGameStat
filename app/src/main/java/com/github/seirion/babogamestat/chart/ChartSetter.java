@@ -1,16 +1,20 @@
 package com.github.seirion.babogamestat.chart;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 
 import com.db.chart.view.AxisController;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.github.seirion.babogamestat.DataSet;
+import com.github.seirion.babogamestat.ReportActivity;
 
 import java.text.DecimalFormat;
 
 public class ChartSetter {
     private static ChartSetter INSTANCE = new ChartSetter();
+    private String KEY_INDEX = "KEY_INDEX";
 
     public static ChartSetter instance() {
         return INSTANCE;
@@ -31,8 +35,11 @@ public class ChartSetter {
         chart.setClickablePointRadius(20);
     }
 
-    public void initEvent(ChartView chart) {
+    public void initEvent(Context context, ChartView chart) {
         chart.setOnEntryClickListener((setIndex, entryIndex, entryRect) -> {
+            Intent intent = new Intent(context, ReportActivity.class);
+            intent.putExtra(KEY_INDEX, entryIndex);
+            context.startActivity(intent);
         });
 
         chart.setOnClickListener(v -> {

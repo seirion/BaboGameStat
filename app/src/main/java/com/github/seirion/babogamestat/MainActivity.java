@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
     private void initChart() {
         ChartSetter.instance().init(chart);
         ChartSetter.instance().initLineChart(chart);
-        ChartSetter.instance().initEvent(chart);
+        ChartSetter.instance().initEvent(this, chart);
         chart.addData(dataSet.getLineSet());
         ChartSetter.instance().setValueRange(chart, dataSet);
     }
