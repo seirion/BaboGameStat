@@ -115,6 +115,10 @@ public class MainActivity extends Activity {
                 date.get(Calendar.MONTH),
                 date.get(Calendar.DAY_OF_MONTH)
         ));
+
+        dateView.setOnClickListener(v -> {
+            reload();
+        });
     }
 
     public void reload() {
