@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 
 public class ChartSetter {
     private static ChartSetter INSTANCE = new ChartSetter();
-    private String KEY_INDEX = "KEY_INDEX";
+    public static String KEY_INDEX = "KEY_INDEX";
 
     public static ChartSetter instance() {
         return INSTANCE;

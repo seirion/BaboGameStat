@@ -80,7 +80,8 @@ public class MainActivity extends Activity {
     }
 
     private void initData(List<BaboData> results) {
-        dataSet = new DataSet(results);
+        dataSet = DataSet.instance();
+        dataSet.init(results);
     }
 
     private void initChart() {

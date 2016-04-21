@@ -6,11 +6,18 @@ import com.github.seirion.babogamestat.model.BaboData;
 import java.util.List;
 
 public class DataSet {
+    private static DataSet INSTANCE = new DataSet();
     private List<BaboData> origin;
     private float min = 0f;
     private float max = 0f;
 
-    public DataSet(List<BaboData> origin) {
+    public static DataSet instance() {
+        return INSTANCE;
+    }
+
+    private DataSet() {} // singleton
+
+    public void init(List<BaboData> origin) {
         this.origin = origin;
     }
 
@@ -41,6 +48,14 @@ public class DataSet {
 
     public int size() {
         return origin.size();
+    }
+
+    public BaboData get(int index) {
+        try {
+            return origin.get(index);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public float getMin() {
