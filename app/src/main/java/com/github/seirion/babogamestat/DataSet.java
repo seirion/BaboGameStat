@@ -32,7 +32,7 @@ public class DataSet {
         lineSet.setSmooth(true)
                 .setFill(0x330000FF)
                 .setDotsColor(0x99DD1010)
-                .setDotsRadius(8)
+                .setDotsRadius(10)
                 .setThickness(4)
                 .setDashed(new float[] {4, 4});
 
