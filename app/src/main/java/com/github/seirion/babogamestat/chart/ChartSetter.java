@@ -32,7 +32,7 @@ public class ChartSetter {
     }
 
     public void initLineChart(LineChartView chart) {
-        chart.setClickablePointRadius(30);
+        chart.setClickablePointRadius(50);
     }
 
     public void initEvent(Context context, ChartView chart) {

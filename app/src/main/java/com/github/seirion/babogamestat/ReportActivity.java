@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.github.seirion.babogamestat.chart.ChartSetter;
 import com.github.seirion.babogamestat.model.BaboData;
 
+import java.text.DecimalFormat;
+
 public class ReportActivity extends Activity {
     private static final String TAG = ReportActivity.class.getSimpleName();
 
@@ -31,6 +33,7 @@ public class ReportActivity extends Activity {
         BaboData data = DataSet.instance().get(index);
         if (data == null) return;
         setDate(data);
+        setReport(data);
     }
 
     @Override
@@ -45,5 +48,20 @@ public class ReportActivity extends Activity {
         int month = data.getDate() % 10000 / 100;
         int day = data.getDate() % 100;
         dateView.setText(String.format("%d.%d.%d", year, month, day));
+    }
+
+    private void setReport(BaboData data) {
+        final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        TextView reportView = (TextView) findViewById(R.id.reportText);
+        StringBuilder sb = new StringBuilder();
+        float rateOfProfit = ((float)data.getCurrent() - data.getBase()) * 100 / data.getBase();
+        sb.append("누적 수익률 : " + decimalFormat.format(rateOfProfit) + " %\n");
+
+        if (index != 0) {
+            BaboData prev = DataSet.instance().get(index - 1);
+            float rate = ((float)data.getCurrent() - prev.getCurrent()) * 100 / prev.getCurrent();
+            sb.append("당일 수익률 : " + decimalFormat.format(rate) + " %\n");
+        }
+        reportView.setText(sb.toString());
     }
 }
