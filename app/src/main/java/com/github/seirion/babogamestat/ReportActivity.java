@@ -63,37 +63,21 @@ public class ReportActivity extends Activity {
             sb.append("당일 : " + DECIMAL_FORMAT.format(rate) + " %\n");
         }
 
-        if (20 <= DataSet.instance().size()) {
-            sb.append("20일 누적 : " + accumulateRateOf(20) + " %\n");
-            sb.append("20일 평균 : " + averageRateOf(20) + " %\n");
-        }
+        int days = Math.min(20, index);
+        sb.append(String.valueOf(days) + "일 평균 : " + averageRateOf(days) + " %\n");
         reportView.setText(sb.toString());
     }
 
     private String averageRateOf(int days) {
         float base = 0f;
         float current = 0f;
-        while (0 <= --days) {
-            BaboData data = DataSet.instance().get(index - days);
+        for (int i = 1; i <= days; i++) {
+            BaboData data = DataSet.instance().get(index - i);
             base += data.getBase();
-            current = data.getCurrent();
+            current += data.getCurrent();
         }
 
         base /= days;
         current /= days;
         return DECIMAL_FORMAT.format((current - base) * 100 / base);
-    }
 
-    private String accumulateRateOf(int days) {
-        float base = 0f;
-        float current = 0f;
-        while (0 <= --days) {
-            BaboData data = DataSet.instance().get(index - days);
-            base += data.getBase();
-            current = (data.getCurrent() - data.getBase());
-        }
-
-        base /= days;
-        return DECIMAL_FORMAT.format((current - base) * 100 / base);
-    }
-}
