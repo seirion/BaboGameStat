@@ -54,12 +54,12 @@ public class ReportActivity extends Activity {
     private void setReport(BaboData data) {
         TextView reportView = (TextView) findViewById(R.id.reportText);
         StringBuilder sb = new StringBuilder();
-        float rateOfProfit = ((float)data.getCurrent() - data.getBase()) * 100 / data.getBase();
+        float rateOfProfit = ((float) data.getCurrent() - data.getBase()) * 100 / data.getBase();
         sb.append("누적 : " + DECIMAL_FORMAT.format(rateOfProfit) + " %\n");
 
         if (index != 0) {
             BaboData prev = DataSet.instance().get(index - 1);
-            float rate = ((float)data.getCurrent() - prev.getCurrent()) * 100 / prev.getCurrent();
+            float rate = ((float) data.getCurrent() - prev.getCurrent()) * 100 / prev.getCurrent();
             sb.append("당일 : " + DECIMAL_FORMAT.format(rate) + " %\n");
         }
 
@@ -80,4 +80,5 @@ public class ReportActivity extends Activity {
         base /= days;
         current /= days;
         return DECIMAL_FORMAT.format((current - base) * 100 / base);
-
+    }
+}
