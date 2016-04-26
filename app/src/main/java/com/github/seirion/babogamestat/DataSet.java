@@ -26,9 +26,13 @@ public class DataSet {
 
         min = Float.MAX_VALUE;
         max = Float.MIN_VALUE;
+
+        int sampleRate = origin.size() / 12;
+        int i = origin.size();
+
         for (BaboData org : origin) {
             int date = org.getDate() % 10000;
-            String label = String.format("%02d.%02d", date / 100, date % 100);
+            String label = (i++ % sampleRate == 0) ? String.format("%02d.%02d", date / 100, date % 100) : "";
             float value = (org.getCurrent() - org.getBase()) * 100 / (float)org.getBase();
             lineSet.addPoint(label, value);
 
