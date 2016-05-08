@@ -22,13 +22,14 @@ public class DataSet {
     }
 
     public LineSet getLineSet() {
+        final int MAX_NUM = 12;
         LineSet lineSet = new LineSet();
 
         min = Float.MAX_VALUE;
         max = Float.MIN_VALUE;
 
-        int sampleRate = origin.size() / 12;
-        int i = origin.size();
+        int sampleRate = (origin.size() + MAX_NUM - 1) / MAX_NUM;
+        int i = origin.size() % sampleRate + 1;
 
         for (BaboData org : origin) {
             int date = org.getDate() % 10000;
