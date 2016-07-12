@@ -111,9 +111,9 @@ public class MainActivity extends Activity {
     private void setDate() {
         TextView dateView = (TextView) findViewById(R.id.date);
         Calendar date = Calendar.getInstance();
-        dateView.setText(String.format(Locale.KOREAN, "%d.%d.%d",
+        dateView.setText(String.format(Locale.getDefault(), "%d.%d.%d",
                 date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH),
+                date.get(Calendar.MONTH) + 1,
                 date.get(Calendar.DAY_OF_MONTH)
         ));
 
