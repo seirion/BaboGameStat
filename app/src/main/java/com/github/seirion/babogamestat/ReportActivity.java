@@ -2,12 +2,14 @@ package com.github.seirion.babogamestat;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.TextView;
 
 import com.github.seirion.babogamestat.chart.ChartSetter;
 import com.github.seirion.babogamestat.model.BaboData;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class ReportActivity extends Activity {
     private static final String TAG = ReportActivity.class.getSimpleName();
@@ -48,37 +50,37 @@ public class ReportActivity extends Activity {
         int year = data.getDate() / 10000;
         int month = data.getDate() % 10000 / 100;
         int day = data.getDate() % 100;
-        dateView.setText(String.format("%d.%d.%d", year, month, day));
+        dateView.setText(String.format(Locale.getDefault(), "%d.%d.%d", year, month, day));
     }
 
     private void setReport(BaboData data) {
         TextView reportView = (TextView) findViewById(R.id.reportText);
+
         StringBuilder sb = new StringBuilder();
-        float rateOfProfit = ((float) data.getCurrent() - data.getBase()) * 100 / data.getBase();
-        sb.append("누적 : " + DECIMAL_FORMAT.format(rateOfProfit) + " %\n");
+        long current = data.getCurrent();
+
+        sb.append("누적 : " + getCalculated(current, data.getBase()) + " %\n");
 
         if (index != 0) {
             BaboData prev = DataSet.instance().get(index - 1);
-            float rate = ((float) data.getCurrent() - prev.getCurrent()) * 100 / prev.getCurrent();
-            sb.append("당일 : " + DECIMAL_FORMAT.format(rate) + " %\n");
+            sb.append("당일 : " + getCalculated(current, prev.getCurrent()) + " %\n");
+
+            BaboData lastMonth = DataSet.instance().getLastMonth(index);
+            sb.append("당월 : " + getCalculated(current, lastMonth.getCurrent()) + " %\n");
+
+            BaboData lastYear = DataSet.instance().getLastYear(index);
+            sb.append("당해 : " + getCalculated(current, lastYear.getCurrent()) + " %\n");
         }
 
-        int days = Math.min(20, index);
-        sb.append(String.valueOf(days) + "일 평균 : " + averageRateOf(days) + " %\n");
         reportView.setText(sb.toString());
     }
 
-    private String averageRateOf(int days) {
-        float base = 0f;
-        float current = 0f;
-        for (int i = 1; i <= days; i++) {
-            BaboData data = DataSet.instance().get(index - i);
-            base += data.getBase();
-            current += data.getCurrent();
-        }
+    private String getCalculated(long current, long base) {
+        if (base == 0) return "";
+        long profit = current - base;
+        float rateOfProfit = ((float) profit) * 100 / base;
 
-        base /= days;
-        current /= days;
-        return DECIMAL_FORMAT.format((current - base) * 100 / base);
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        return String.format(Locale.getDefault(), "%+,d (%+.2f)", profit, rateOfProfit);
     }
 }

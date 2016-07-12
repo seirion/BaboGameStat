@@ -81,4 +81,22 @@ public class DataSet {
     public int getMaxInt() {
         return (int)(max + 1);
     }
+
+    public BaboData getLastMonth(int index) {
+        return getPrev(index, 100);
+    }
+
+    public BaboData getLastYear(int index) {
+        return getPrev(index, 10000);
+    }
+
+    private BaboData getPrev(int index, int dev) {
+        int current = origin.get(index).getDate() / dev;
+        BaboData prev = origin.get(index);
+        while (0 <= --index) {
+            prev = origin.get(index);
+            if (current != prev.getDate() / dev) break;
+        }
+        return prev;
+    }
 }
