@@ -2,7 +2,6 @@ package com.github.seirion.babogamestat;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.widget.TextView;
 
 import com.github.seirion.babogamestat.chart.ChartSetter;

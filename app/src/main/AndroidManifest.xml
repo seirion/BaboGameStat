@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReportActivity"/>
+        <activity android:name=".DataListActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
