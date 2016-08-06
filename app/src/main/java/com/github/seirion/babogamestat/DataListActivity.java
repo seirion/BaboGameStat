@@ -2,12 +2,12 @@ package com.github.seirion.babogamestat;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class DataListActivity extends Activity {
@@ -18,18 +18,11 @@ public class DataListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
-
-        if (savedInstanceState != null) {
-            loadFromBundle(savedInstanceState);
-        } else if (getIntent() != null && getIntent().getExtras() != null) {
-            loadFromBundle(getIntent().getExtras());
-        }
+        setContentView(R.layout.activity_data_list);
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        adapter = new DataListAdapter();
+        listView.setAdapter(adapter);
         load();
-    }
-
-    private void loadFromBundle(Bundle bundle) {
-
     }
 
     private void load() {
@@ -41,7 +34,7 @@ public class DataListActivity extends Activity {
         private DataSet dataSet;
 
         public DataListAdapter() {
-            inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater = DataListActivity.this.getLayoutInflater();
             dataSet = DataSet.instance();
         }
 

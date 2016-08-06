@@ -1,10 +1,12 @@
 package com.github.seirion.babogamestat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    ViewGroup head;
     LineChartView chart;
     DataSet dataSet;
 
@@ -37,6 +40,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        head = (ViewGroup) findViewById(R.id.head);
         chart = (LineChartView) findViewById(R.id.chart);
 
         initRealm();
@@ -51,6 +55,13 @@ public class MainActivity extends Activity {
 
     private void initUI() {
         setDate();
+        head.setOnLongClickListener(v -> startDataListAcitivity());
+    }
+
+    private boolean startDataListAcitivity() {
+        Intent i = new Intent(this, DataListActivity.class);
+        startActivity(i);
+        return true;
     }
 
     private void loadData() {
