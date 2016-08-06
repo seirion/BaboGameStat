@@ -10,6 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.seirion.babogamestat.model.BaboData;
+
+import java.util.Locale;
+
 public class DataListActivity extends Activity {
     private static final String TAG = DataListActivity.class.getSimpleName();
 
@@ -63,11 +67,19 @@ public class DataListActivity extends Activity {
             }
             TextView date = (TextView) v.findViewById(R.id.date);
             TextView inout = (TextView) v.findViewById(R.id.inout);
-            TextView balence = (TextView) v.findViewById(R.id.balence);
+            TextView balance = (TextView) v.findViewById(R.id.balance);
 
-            date.setText("1"); // test
-            inout.setText("2");
-            balence.setText("3");
+            BaboData data = dataSet.get(position);
+            int year = data.getDate() / 10000;
+            int month = data.getDate() % 10000 / 100;
+            int day = data.getDate() % 100;
+            date.setText(String.format(Locale.getDefault(), "%02d.%02d.%02d", year, month, day));
+
+            if (position != 0) {
+                BaboData prev = dataSet.get(position - 1);
+                inout.setText(String.format(Locale.getDefault(), "%+,d", data.getCurrent() - prev.getCurrent()));
+            }
+            balance.setText(String.format(Locale.getDefault(), "%,d", data.getCurrent()));
             return v;
         }
     }
