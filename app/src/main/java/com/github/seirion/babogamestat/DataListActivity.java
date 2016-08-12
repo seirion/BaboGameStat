@@ -2,14 +2,17 @@ package com.github.seirion.babogamestat;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.seirion.babogamestat.chart.ChartSetter;
 import com.github.seirion.babogamestat.model.BaboData;
 
 import java.util.Locale;
@@ -26,6 +29,12 @@ public class DataListActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         adapter = new DataListAdapter();
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            int index = DataSet.instance().size() - position - 1;
+            Intent intent = new Intent(this, ReportActivity.class);
+            intent.putExtra(ChartSetter.KEY_INDEX, index);
+            startActivity(intent);
+        });
     }
 
     private class DataListAdapter extends BaseAdapter {
