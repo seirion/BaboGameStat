@@ -26,11 +26,6 @@ public class DataListActivity extends Activity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         adapter = new DataListAdapter();
         listView.setAdapter(adapter);
-        load();
-    }
-
-    private void load() {
-
     }
 
     private class DataListAdapter extends BaseAdapter {
@@ -59,6 +54,8 @@ public class DataListActivity extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            int index = dataSet.size() - position - 1;
+            int prevIndex = index - 1;
 
             View v = convertView;
             if (v == null) {
@@ -69,15 +66,17 @@ public class DataListActivity extends Activity {
             TextView inout = (TextView) v.findViewById(R.id.inout);
             TextView balance = (TextView) v.findViewById(R.id.balance);
 
-            BaboData data = dataSet.get(position);
+            BaboData data = dataSet.get(index);
             int year = data.getDate() / 10000;
             int month = data.getDate() % 10000 / 100;
             int day = data.getDate() % 100;
             date.setText(String.format(Locale.getDefault(), "%02d.%02d.%02d", year, month, day));
 
-            if (position != 0) {
-                BaboData prev = dataSet.get(position - 1);
+            if (0 <= prevIndex) {
+                BaboData prev = dataSet.get(prevIndex);
                 inout.setText(String.format(Locale.getDefault(), "%+,d", data.getCurrent() - prev.getCurrent()));
+            } else {
+                inout.setText("");
             }
             balance.setText(String.format(Locale.getDefault(), "%,d", data.getCurrent()));
             return v;
