@@ -8,6 +8,7 @@
               android:paddingRight="16dp"
               android:scrollbars="vertical"
               android:scrollbarStyle="insideOverlay"
+              android:background="@color/gray"
     >
     <TextView
         android:id="@+id/date"
