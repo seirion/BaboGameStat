@@ -58,17 +58,17 @@ public class ReportActivity extends Activity {
         StringBuilder sb = new StringBuilder();
         long current = data.getCurrent();
 
-        sb.append("누적 : " + getCalculated(current, data.getBase()) + " %\n");
+        sb.append("누적 : " + getCalculated(current, data.getBase()) + "\n");
 
         if (index != 0) {
             BaboData prev = DataSet.instance().get(index - 1);
-            sb.append("당일 : " + getCalculated(current, prev.getCurrent()) + " %\n");
+            sb.append("당일 : " + getCalculated(current, prev.getCurrent()) + "\n");
 
             BaboData lastMonth = DataSet.instance().getLastMonth(index);
-            sb.append("당월 : " + getCalculated(current, lastMonth.getCurrent()) + " %\n");
+            sb.append("당월 : " + getCalculated(current, lastMonth.getCurrent()) + "\n");
 
             BaboData lastYear = DataSet.instance().getLastYear(index);
-            sb.append("당해 : " + getCalculated(current, lastYear.getCurrent()) + " %\n");
+            sb.append("당해 : " + getCalculated(current, lastYear.getCurrent()) + "\n");
         }
 
         reportView.setText(sb.toString());
@@ -80,6 +80,6 @@ public class ReportActivity extends Activity {
         float rateOfProfit = ((float) profit) * 100 / base;
 
         DecimalFormat df = new DecimalFormat("#,##0.00");
-        return String.format(Locale.getDefault(), "%+,d (%+.2f)", profit, rateOfProfit);
+        return String.format(Locale.getDefault(), "%+,d (%+.2f%%)", profit, rateOfProfit);
     }
 }
