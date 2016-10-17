@@ -11,8 +11,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:minHeight="40dp"
-        >
-    </android.support.v7.widget.Toolbar>
+        />
 
     <ListView
         android:id="@+id/list_view"
