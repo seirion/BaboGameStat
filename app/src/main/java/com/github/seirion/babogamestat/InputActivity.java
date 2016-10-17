@@ -3,9 +3,11 @@ package com.github.seirion.babogamestat;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.seirion.babogamestat.model.BaboData;
 
@@ -17,6 +19,10 @@ public class InputActivity extends Activity {
     private int prevDate = 0;
     private int date = 0;
     private long value = 0;
+    private long base = 0;
+
+    EditText dateEdit;
+    EditText valueEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +31,10 @@ public class InputActivity extends Activity {
 
         loadData();
 
-        EditText dateEdit = (EditText) findViewById(R.id.dateEdit);
+        dateEdit = (EditText) findViewById(R.id.dateEdit);
         dateEdit.setText(String.valueOf(date));
 
-        EditText valueEdit = (EditText) findViewById(R.id.valueEdit);
+        valueEdit = (EditText) findViewById(R.id.valueEdit);
         valueEdit.setText(String.valueOf(value));
         valueEdit.requestFocus();
 
@@ -43,12 +49,18 @@ public class InputActivity extends Activity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
     private void loadData() {
         int lastIndex = DataSet.instance().size() - 1;
         if (lastIndex != -1) {
             BaboData data = DataSet.instance().get(lastIndex);
             prevDate = data.getDate();
             value = data.getCurrent();
+            base = data.getBase();
         }
         date = nextDay(prevDate);
     }
@@ -77,6 +89,15 @@ public class InputActivity extends Activity {
     }
 
     private void save() {
-
+        try {
+            int date = Integer.valueOf(dateEdit.getText().toString());
+            int current = Integer.valueOf(valueEdit.getText().toString());
+            BaboData.save(BaboData.create(date, current, base));
+            Toast.makeText (this, "Data saved.", Toast.LENGTH_SHORT).show();
+            hideKeyboard();
+            finish();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception while save values : " + e);
+        }
     }
 }

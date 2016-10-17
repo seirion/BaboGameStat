@@ -37,6 +37,14 @@ public class BaboData extends RealmObject implements Comparable<BaboData>{
         this.base = base;
     }
 
+    public static BaboData create(int date, long current, long base) {
+        BaboData data = new BaboData();
+        data.setDate(date);
+        data.setCurrent(current);
+        data.setBase(base);
+        return data;
+    }
+
     public static BaboData loadFromString(String str) {
         BaboData data = new BaboData();
         String [] parsed = str.split(" ");
@@ -56,6 +64,14 @@ public class BaboData extends RealmObject implements Comparable<BaboData>{
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(dataList);
+        realm.commitTransaction();
+        return true;
+    }
+
+    public static boolean save(BaboData baboData) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(baboData);
         realm.commitTransaction();
         return true;
     }
