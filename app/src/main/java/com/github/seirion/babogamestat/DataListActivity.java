@@ -35,6 +35,14 @@ public class DataListActivity extends Activity {
             intent.putExtra(ChartSetter.KEY_INDEX, index);
             startActivity(intent);
         });
+
+        findViewById(R.id.toolbar).setOnClickListener(v -> startInputActivity());
+    }
+
+    private boolean startInputActivity() {
+        Intent i = new Intent(this, InputActivity.class);
+        startActivity(i);
+        return true;
     }
 
     private class DataListAdapter extends BaseAdapter {

@@ -64,12 +64,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    private boolean startInputAcitivity() {
-        Intent i = new Intent(this, InputActivity.class);
-        startActivity(i);
-        return true;
-    }
-
     private void loadData() {
         loadFromLocal().filter(r -> !r.isEmpty())
                 .subscribe(results -> ready(results),
