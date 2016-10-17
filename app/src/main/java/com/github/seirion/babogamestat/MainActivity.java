@@ -55,11 +55,17 @@ public class MainActivity extends Activity {
 
     private void initUI() {
         setDate();
-        head.setOnLongClickListener(v -> startDataListAcitivity());
+        head.setOnLongClickListener(v -> startDataListActivity());
     }
 
-    private boolean startDataListAcitivity() {
+    private boolean startDataListActivity() {
         Intent i = new Intent(this, DataListActivity.class);
+        startActivity(i);
+        return true;
+    }
+
+    private boolean startInputAcitivity() {
+        Intent i = new Intent(this, InputActivity.class);
         startActivity(i);
         return true;
     }

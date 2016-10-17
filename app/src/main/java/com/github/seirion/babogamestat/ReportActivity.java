@@ -79,7 +79,6 @@ public class ReportActivity extends Activity {
         long profit = current - base;
         float rateOfProfit = ((float) profit) * 100 / base;
 
-        DecimalFormat df = new DecimalFormat("#,##0.00");
         return String.format(Locale.getDefault(), "%+,d (%+.2f%%)", profit, rateOfProfit);
     }
 }
