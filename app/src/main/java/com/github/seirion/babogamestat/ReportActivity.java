@@ -53,6 +53,10 @@ public class ReportActivity extends Activity {
     }
 
     private void setReport(BaboData data) {
+        if (DataSet.instance().isFirstDayOfYear(index)) {
+            return;
+        }
+
         TextView reportView = (TextView) findViewById(R.id.reportText);
 
         StringBuilder sb = new StringBuilder();
@@ -67,8 +71,8 @@ public class ReportActivity extends Activity {
             BaboData lastMonth = DataSet.instance().getLastMonth(index);
             sb.append("당월 : " + getCalculated(current, lastMonth.getCurrent()) + "\n");
 
-            BaboData lastYear = DataSet.instance().getLastYear(index);
-            sb.append("당해 : " + getCalculated(current, lastYear.getCurrent()) + "\n");
+            BaboData firstDay = DataSet.instance().getFirstDayOfYear(data.getDate() / 10000);
+            sb.append("당해 : " + getCalculated(current, firstDay.getCurrent()) + "\n");
         }
 
         reportView.setText(sb.toString());

@@ -60,9 +60,9 @@ public class InputActivity extends Activity {
             BaboData data = DataSet.instance().get(lastIndex);
             prevDate = data.getDate();
             value = data.getCurrent();
-            base = data.getBase();
         }
         date = nextDay(prevDate);
+        base = DataSet.instance().getBaseOfYear(date / 10000);
     }
 
     int nextDay(int prev) {

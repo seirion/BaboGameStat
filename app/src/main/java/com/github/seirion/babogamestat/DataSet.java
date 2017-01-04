@@ -83,11 +83,24 @@ public class DataSet {
     }
 
     public BaboData getLastMonth(int index) {
+        if (isFirstMonthOfYear(index)) {
+            int year = origin.get(index).getDate() / 10000;
+            return getFirstDayOfYear(year);
+        }
         return getPrev(index, 100);
     }
 
     public BaboData getLastYear(int index) {
         return getPrev(index, 10000);
+    }
+
+    public boolean isFirstDayOfYear(int index) {
+        return index == 0 ||
+                origin.get(index).getDate() / 10000 != origin.get(index - 1).getDate() / 10000;
+    }
+
+    public boolean isFirstMonthOfYear(int index) {
+        return index == 0 || origin.get(index).getDate() / 100 % 100 == 1;
     }
 
     private BaboData getPrev(int index, int dev) {
@@ -99,4 +112,22 @@ public class DataSet {
         }
         return prev;
     }
+
+    public long getBaseOfYear(int year) {
+        BaboData firstOfYear = getFirstDayOfYear(year);
+        return firstOfYear.getCurrent();
+    }
+
+    public BaboData getFirstDayOfYear(int year) {
+        int i = origin.size() - 1;
+        while (0 <= i) {
+            BaboData data = origin.get(i);
+            if (data.getDate() / 10000 < year) {
+                return origin.get(i+1);
+            }
+            i--;
+        }
+        return origin.get(0);
+    }
+
 }

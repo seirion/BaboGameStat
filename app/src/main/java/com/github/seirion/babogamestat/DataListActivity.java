@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -89,7 +88,7 @@ public class DataListActivity extends Activity {
             int day = data.getDate() % 100;
             date.setText(String.format(Locale.getDefault(), "%02d.%02d.%02d", year, month, day));
 
-            if (0 <= prevIndex) {
+            if (0 <= prevIndex && !dataSet.isFirstDayOfYear(index)) {
                 BaboData prev = dataSet.get(prevIndex);
                 inout.setText(String.format(Locale.getDefault(), "%+,d", data.getCurrent() - prev.getCurrent()));
             } else {
