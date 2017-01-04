@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 
     private void initUI() {
         setDate();
-        head.setOnLongClickListener(v -> startDataListActivity());
+        head.setOnClickListener(v -> startDataListActivity());
     }
 
     private boolean startDataListActivity() {
